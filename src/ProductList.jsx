@@ -262,7 +262,7 @@ function ProductList({ setShowProductList }) {
 
     function computeTotalQuantity(cart) {
         let tmpQuantity = 0;
-        cart.forEach(item => tmpQuantity = + item.quantity)
+        cart.forEach(item => tmpQuantity += item.quantity)
         return tmpQuantity
     }
     useEffect(() => {
