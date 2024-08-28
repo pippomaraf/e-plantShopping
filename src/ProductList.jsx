@@ -5,9 +5,8 @@ import { addItem } from './CartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 
-function ProductList({setShowProductList}) {
+function ProductList({ setShowProductList }) {
     const [showCart, setShowCart] = useState(false);
-    const [addedToCart, setAddedToCart] = useState({});
     const [totalQuantity, setTotalQuantity] = useState("")
     const cart = useSelector(state => state.cart.items);
 
@@ -245,6 +244,7 @@ function ProductList({setShowProductList}) {
         e.preventDefault();
         setShowCart(true); // Set showCart to true when cart icon is clicked
     };
+
     const handlePlantsClick = (e) => {
         e.preventDefault();
         setShowProductList(false); // Set showAboutUs to true when "About Us" link is clicked
@@ -258,10 +258,6 @@ function ProductList({setShowProductList}) {
 
     const handleAddToCart = (product) => {
         dispatch(addItem(product));
-        setAddedToCart((prevState) => ({
-            ...prevState,
-            [product.name]: true, // Set the product name as key and value as true to indicate it's added to cart
-        }));
     };
 
     function computeTotalQuantity(cart) {
@@ -314,23 +310,33 @@ function ProductList({setShowProductList}) {
                         <div key={index}>
                             <h1><div className='plantname_heading'>{category.category}</div></h1>
                             <div className="product-list">
-                                {category.plants.map((plant, plantIndex) => (
-                                    <div className="product-card" key={plantIndex}>
-                                        <img className="product-image" src={plant.image} alt={plant.name} />
-                                        <div className="product-title">{plant.name}</div>
-                                        {/*Similarly like the above plant.name show other details like description and cost*/}
-                                        <button className="product-button" onClick={() => handleAddToCart(plant)}>Add to Cart</button>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    ))}
+                                {category.plants.map((plant, plantIndex) => {
 
-                </div>
-            ) : (
-                <CartItem onContinueShopping={handleContinueShopping} />
-            )}
+                                    const isAddedToCart = cart.find(item => item.name === plant.name)
+
+                                    return (
+                                        <div className="product-card" key={plantIndex}>
+                                            <img className="product-image" src={plant.image} alt={plant.name} />
+                                            <div className="product-title">{plant.name}</div>
+                                            {/*Similarly like the above plant.name show other details like description and cost*/}
+                                            <button
+                                                className={`product-button ${isAddedToCart ? 'added-to-cart disabled' : ''}`}
+                                                disabled={isAddedToCart}
+                                                onClick={() => handleAddToCart(plant)}>
+                                                Add to Cart
+                                            </button>
+                                    </div>
+                                )})}
+                        </div>
+                        </div>
+            ))}
+
         </div>
+    ) : (
+        <CartItem onContinueShopping={handleContinueShopping} />
+    )
+}
+        </div >
     );
 }
 
