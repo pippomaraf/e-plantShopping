@@ -247,7 +247,7 @@ function ProductList({ setShowProductList }) {
 
     const handlePlantsClick = (e) => {
         e.preventDefault();
-        setShowProductList(false); // Set showAboutUs to true when "About Us" link is clicked
+        setShowProductList(true);
         setShowCart(false); // Hide the cart when navigating to About Us
     };
 
