@@ -8,7 +8,7 @@ const CartItem = ({ onContinueShopping }) => {
     const dispatch = useDispatch();
 
     function parseItemCost(cost) {
-        return parseFloat("$12".replace('$', ""))
+        return parseFloat(cost.replace('$', ""))
     }
 
     // Calculate total amount for all products in the cart
